@@ -3,12 +3,11 @@
   "trailingComma": "es5",
   "overrides": [
     {
-      "files": [
-        "**/.*rc"
-      ],
+      "files": ["**/.*rc"],
       "options": {
         "parser": "json"
       }
     }
-  ]
+  ],
+  "printWidth": 80
 }

@@ -2,52 +2,74 @@
 
 // https://www.highcharts.com/docs/chart-and-series-types/histogram-series
 
-const data = new Array(10000).fill(0).map(Math.random);
+import { fx, xiArr } from './calculations.js';
 
-Highcharts.chart({
-  chart: {
-    renderTo: 'container',
-  },
+// const data = new Array(10000).fill(0).map(Math.random);
 
-  title: {
-    text: 'Lab1',
-  },
-
-  xAxis: [{
-    title: { text: 'Data' },
-    alignTicks: false,
-  }, {
-    title: { text: 'Histogram' },
-    alignTicks: false,
-    opposite: true,
-  }],
-
-  yAxis: [{
-    title: { text: 'Data' },
-  }, {
-    title: { text: 'Histogram' },
-    opposite: true,
-  }],
-
-  series: [{
-    name: 'Histogram',
-    type: 'histogram',
-    xAxis: 1,
-    yAxis: 1,
-    baseSeries: 's1',
-    zIndex: -1,
-  }, {
-    name: 'Data',
-    type: 'scatter',
-    data: data,
-    id: 's1',
-    marker: {
-      radius: 1.5,
+const displayHistogram = ({ title, data, renderTo }) =>
+  Highcharts.chart({
+    chart: {
+      renderTo,
     },
-    turboThreshold: 10000,
-  }],
 
-  credits: {
-    enabled: false,
-  },
-});
+    title: {
+      text: title,
+    },
+
+    xAxis: [
+      {
+        title: { text: 'Data' },
+        alignTicks: false,
+      },
+      {
+        title: { text: 'Histogram' },
+        alignTicks: false,
+        opposite: true,
+      },
+    ],
+
+    yAxis: [
+      {
+        title: { text: 'Data' },
+      },
+      {
+        title: { text: 'Histogram' },
+        opposite: true,
+      },
+    ],
+
+    series: [
+      {
+        name: 'Histogram',
+        type: 'histogram',
+        xAxis: 1,
+        yAxis: 1,
+        baseSeries: 's1',
+        zIndex: -1,
+      },
+      {
+        name: 'Data',
+        type: 'scatter',
+        data,
+        id: 's1',
+        marker: {
+          radius: 1.5,
+        },
+        turboThreshold: 10000,
+      },
+    ],
+
+    plotOptions: {
+      histogram: {
+        binsNumber: 20,
+      },
+    },
+
+    credits: {
+      enabled: false,
+    },
+  });
+
+displayHistogram({ title: 'Lab1', data: xiArr, renderTo: 'container' });
+
+displayHistogram({ title: 'fx', data: fx, renderTo: 'container2' });
