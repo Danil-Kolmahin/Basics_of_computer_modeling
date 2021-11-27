@@ -4,7 +4,7 @@
 // const xi = 'ξ';
 // const lambda = 'λ';
 
-const { random, sqrt, PI, exp } = Math;
+const { random, sqrt, PI, exp, E } = Math;
 const sum = (...args) => args.reduce((a, b) => a + b, 0);
 const average = (...args) => sum(...args) / args.length;
 const arr = (length) => Array(length).fill(0);
@@ -27,9 +27,12 @@ const D = sqrt(
 );
 
 const lambda = 1 / D;
+const p = lambda * E ** -lambda;
 
-console.dir({
+console.log({
   average: average(...xiArr),
   fx,
   D,
+  p,
+  X: Gcf(p),
 });
