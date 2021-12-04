@@ -1,5 +1,9 @@
 {
+  "type": "module",
   "devDependencies": {
     "prettier": "2.4.1"
+  },
+  "dependencies": {
+    "ansi-escape-sequences": "^6.2.0"
   }
 }
