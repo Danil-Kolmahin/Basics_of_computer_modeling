@@ -60,7 +60,7 @@ class Channel extends Parent {
 
   spend(step) {
     // console.log(JSON.stringify(this, null, 2));
-    if (this.content[0]) this.content[0].rest -= step;
+    if (this.content[0]) this.content[0].rest -= this.mu * step;
   }
 
   resolve() {
