@@ -1,15 +1,24 @@
+// import { hrtime } from "process";
+
 class Parent {
+  history = [];
+
   constructor(capacity = 1, isBlocked = false) {
     this.capacity = capacity;
     this.isBlocked = isBlocked;
     this.content = [];
+    this.name = Math.floor(Math.random() * 100);
   }
 
   get canAdd() {}
 
-  addOne() {}
+  addOne() {
+    this.history.push({ contentLen: this.content.length });
+  }
 
-  takeOne() {}
+  takeOne() {
+    this.history.push({ contentLen: this.content.length });
+  }
 }
 
 class Que extends Parent {
@@ -27,10 +36,12 @@ class Que extends Parent {
   }
 
   takeOne() {
+    super.takeOne();
     return this.content.pop();
   }
 
   addOne(instance) {
+    super.addOne();
     this.content.push(instance);
   }
 }
@@ -50,10 +61,12 @@ class Channel extends Parent {
   }
 
   takeOne() {
+    super.takeOne();
     return this.content.pop();
   }
 
   addOne(instance) {
+    super.addOne();
     this.content[0] = instance;
     instance.rest = instance.executionTime;
   }
