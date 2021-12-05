@@ -2,7 +2,7 @@ class Parent {
   constructor(capacity = 1, isBlocked = false) {
     this.capacity = capacity;
     this.isBlocked = isBlocked;
-    this.content = new Array(isFinite(capacity) ? capacity : 9000).fill(null);
+    this.content = [];
   }
 
   get canAdd() {}
@@ -18,7 +18,8 @@ class Que extends Parent {
   }
 
   get canTake() {
-    return true;
+    // console.log(JSON.stringify(this, null, 2));
+    return this.content.length !== 0;
   }
 
   get canAdd() {
@@ -26,13 +27,11 @@ class Que extends Parent {
   }
 
   takeOne() {
-    const res = this.content[this.content.length - 1];
-    this.content[this.content.length - 1] = null;
-    return res;
+    return this.content.pop();
   }
 
   addOne(instance) {
-    this.content[this.content.length] = instance;
+    this.content.push(instance);
   }
 }
 
@@ -43,17 +42,15 @@ class Channel extends Parent {
   }
 
   get canTake() {
-    return this.content[0] === null;
+    return !!this.content[0] && this.content[0].rest <= 0;
   }
 
   get canAdd() {
-    return this.content[0].rest <= 0;
+    return !this.content[0];
   }
 
   takeOne() {
-    const res = this.content[0];
-    this.content[0] = null;
-    return res;
+    return this.content.pop();
   }
 
   addOne(instance) {
@@ -62,6 +59,7 @@ class Channel extends Parent {
   }
 
   spend(step) {
+    // console.log(JSON.stringify(this, null, 2));
     if (this.content[0]) this.content[0].rest -= step;
   }
 
@@ -78,7 +76,13 @@ class Instance {
     this.index = index;
   }
 
-  resolve() {}
+  resolve() {
+    console.log("resolve");
+  }
+
+  destroy() {
+    console.log("destroy");
+  }
 }
 
 const process = (lambda, way, maxTime, step = 0.05) => {
@@ -91,7 +95,11 @@ const process = (lambda, way, maxTime, step = 0.05) => {
 
     count += step;
     let newElement;
-    if (count >= lambda) newElement = new Instance(time);
+    if (count >= 1 / lambda) {
+      newElement = new Instance(time);
+      if (way[0].canAdd) way[0].addOne(newElement);
+      else newElement.destroy();
+    }
 
     for (let i = way.length - 1; i >= 0; i--) {
       const cur = way[i];
@@ -103,9 +111,20 @@ const process = (lambda, way, maxTime, step = 0.05) => {
           }
         });
       } else {
+        if (cur.canTake) {
+          // console.log({
+          //   1: i === way.length - 1,
+          //   2: way[i + 1][0],
+          //   3: way[i + 1][1],
+          // });
+          if (i === way.length - 1) cur.resolve();
+          else if (way[i + 1][0].canAdd) way[i + 1][0].addOne(cur.takeOne());
+          else if (way[i + 1][1].canAdd) way[i + 1][1].addOne(cur.takeOne());
+        }
       }
     }
   }
+  console.log(JSON.stringify(way, null, 2));
 };
 
 process(
