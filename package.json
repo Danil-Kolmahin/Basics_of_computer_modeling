@@ -4,6 +4,7 @@
     "prettier": "2.4.1"
   },
   "dependencies": {
-    "ansi-escape-sequences": "^6.2.0"
+    "ansi-escape-sequences": "^6.2.0",
+    "plotly": "^1.0.6"
   }
 }

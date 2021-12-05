@@ -1,4 +1,4 @@
-// import { hrtime } from "process";
+import plotly from "plotly";
 
 class Parent {
   history = [];
@@ -138,6 +138,15 @@ const process = (lambda, way, maxTime, step = 0.05) => {
     }
   }
   console.log(JSON.stringify(way, null, 2));
+
+  plotly("data-together", "J9u7cNMoFwJY9fTfWOaG").plot(
+    {
+      x: way[0].history.map((h) => h.contentLen).reverse(),
+      type: "histogram",
+    },
+    { filename: "basic-histogram", fileopt: "overwrite" }
+    // console.log
+  );
 };
 
 process(
