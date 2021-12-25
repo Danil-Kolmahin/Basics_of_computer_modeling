@@ -1,10 +1,11 @@
 {
-  "type": "module",
   "devDependencies": {
     "prettier": "2.4.1"
   },
   "dependencies": {
     "ansi-escape-sequences": "^6.2.0",
+    "lodash": "^2.4.2",
+    "petri-net": "^0.2.1",
     "plotly": "^1.0.6"
   }
 }
